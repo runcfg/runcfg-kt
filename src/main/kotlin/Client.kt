@@ -29,10 +29,11 @@ inline fun <reified T> LoadConfigAsType(): T {
     val conf = Json.decodeFromString<RunCfg>(lineList)
     val target = "https://runcfg.com/app/project/${conf.projectId}/view"
     val request: Request = Request.Builder()
-        .url(target) //This adds the token to the header.
+        .url(target)
         .addHeader("Authorization", "${conf.clientToken}")
         .addHeader("User-Agent", "runcfg-kt/1.0.0")
         .build()
+
     client.newCall(request).execute().use { response ->
         if (!response.isSuccessful) {
             throw IOException("Unexpected code $response")
